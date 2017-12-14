@@ -1,0 +1,476 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>UIWebView与WKWebView | Chausson的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Chausson">
+    
+
+    
+    <meta name="description" content="UIWebViewUIWebView是苹果继承于UIView封装的一个加载web内容的类,它可以加载任何远端的web数据展示在你的页面上，你可以像浏览器一样前进后退刷新等操作。不过苹果在iOS8以后推出了WKWebView来加载Web，下面再详细介绍下WKWebView。
+UIWebView属于UIKit，封装了WebKit.framework的WebView.
+WebView组合管理了WebCo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UIWebView与WKWebView">
+<meta property="og:url" content="http://chausson.github.io/2016/08/09/UIWebView与WKWebView/index.html">
+<meta property="og:site_name" content="Chausson的技术博客">
+<meta property="og:description" content="UIWebViewUIWebView是苹果继承于UIView封装的一个加载web内容的类,它可以加载任何远端的web数据展示在你的页面上，你可以像浏览器一样前进后退刷新等操作。不过苹果在iOS8以后推出了WKWebView来加载Web，下面再详细介绍下WKWebView。
+UIWebView属于UIKit，封装了WebKit.framework的WebView.
+WebView组合管理了WebCo">
+<meta property="og:image" content="http://chausson.github.io/img/webview.png">
+<meta property="og:updated_time" content="2016-08-24T01:37:37.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UIWebView与WKWebView">
+<meta name="twitter:description" content="UIWebViewUIWebView是苹果继承于UIView封装的一个加载web内容的类,它可以加载任何远端的web数据展示在你的页面上，你可以像浏览器一样前进后退刷新等操作。不过苹果在iOS8以后推出了WKWebView来加载Web，下面再详细介绍下WKWebView。
+UIWebView属于UIKit，封装了WebKit.framework的WebView.
+WebView组合管理了WebCo">
+<meta name="twitter:image" content="http://chausson.github.io/img/webview.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Chausson的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chausson的技术博客">Chausson的技术博客</a></h1>
+				<h2 class="blog-motto">技术的本质是为了实现需求，更深入的了解是为了更好的实现</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">文章</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:chausson.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/09/UIWebView与WKWebView/" title="UIWebView与WKWebView" itemprop="url">UIWebView与WKWebView</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Chausson" target="_blank" itemprop="author">Chausson</a>
+		
+  <p class="article-time">
+    <time datetime="2016-08-09T03:32:33.000Z" itemprop="datePublished"> 发表于 2016-08-09</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#UIWebView"><span class="toc-number">1.</span> <span class="toc-text">UIWebView</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#WKWebView"><span class="toc-number">2.</span> <span class="toc-text">WKWebView</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView相比于UIWebView"><span class="toc-number">2.1.</span> <span class="toc-text">WKWebView相比于UIWebView</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WKWebView的协议"><span class="toc-number">2.2.</span> <span class="toc-text">WKWebView的协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#WKScriptMessageHandler协议"><span class="toc-number">2.2.1.</span> <span class="toc-text">WKScriptMessageHandler协议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WKNavigationDelegate协议"><span class="toc-number">2.2.2.</span> <span class="toc-text">WKNavigationDelegate协议</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#WKUIDelegate协议"><span class="toc-number">2.3.</span> <span class="toc-text">WKUIDelegate协议</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#总结"><span class="toc-number">3.</span> <span class="toc-text">总结</span></a></li></ol>
+		
+		</div>
+		
+		<h1 id="UIWebView"><a href="#UIWebView" class="headerlink" title="UIWebView"></a>UIWebView</h1><p>UIWebView是苹果继承于UIView封装的一个加载web内容的类,它可以加载任何远端的web数据展示在你的页面上，你可以像浏览器一样前进后退刷新等操作。不过苹果在iOS8以后推出了WKWebView来加载Web，下面再详细介绍下WKWebView。</p>
+<p>UIWebView属于UIKit，封装了WebKit.framework的WebView.</p>
+<p>WebView组合管理了WebCore.framework的Page,并提供了各种Clients.</p>
+<p>Page管理了Main Frame，Main Frame管理了sub Frame（FrameTree)<br><a href="http://blog.csdn.net/hursing" target="_blank" rel="external">关于详细的UIWebView介绍转自这里</a><br><img src="/img/webview.png" title="webview层级"><br>WebView继承自WAKView,WAKView类似于NSView，可以做较少的改动使得Mac和iOS共用一套。由UIWebDocumentView对WebView进行操作并接收回调事件，当数据发生变化的时候，就会通知UIWebTiledView重新绘制。</p>
+<p>UIWebTiledView和WAKWindow这两个类主要负责页面的绘制，包括布局绘图排版，交互等,WAKWindow还会做一些用户操作事件的分派。</p>
+<p>UIWebBrowserView主要负责</p>
+<ul>
+<li>form的自动填充</li>
+<li>fixed元素的位置调整</li>
+<li>JavaScript的手势识别</li>
+<li>键盘弹出时的视图滚动处理，防止遮挡</li>
+<li>提供接口让UIWebView获取信息</li>
+<li>为显示PDF时添加页号标签<br>通过反编译可以获得UIWebViewInternal的具体成员变量<figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">UIWebViewInternal</span> : <span class="title">NSObject</span>  </span></span><br><span class="line">&#123;  </span><br><span class="line">    <span class="built_in">UIScrollView</span> *scroller;  </span><br><span class="line">    <span class="built_in">UIWebBrowserView</span> *browserView;  </span><br><span class="line">    <span class="built_in">UICheckeredPatternView</span> *checkeredPatternView;  </span><br><span class="line">    <span class="keyword">id</span> &lt;<span class="built_in">UIWebViewDelegate</span>&gt; delegate;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> scalesPageToFit;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> isLoading;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> hasOverriddenOrientationChangeEventHandling;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> drawsCheckeredPattern;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> webSelectionEnabled;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> drawInWebThread;  </span><br><span class="line">    <span class="keyword">unsigned</span> <span class="keyword">int</span> inRotation;  </span><br><span class="line">    <span class="built_in">NSURLRequest</span> *request;  </span><br><span class="line">    <span class="keyword">int</span> clickedAlertButtonIndex;  </span><br><span class="line">    <span class="built_in">UIWebViewWebViewDelegate</span> *webViewDelegate;  </span><br><span class="line">    <span class="built_in">UIWebPDFViewHandler</span> *pdfHandler;  </span><br><span class="line">&#125; </span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>由此可以看出UIWebViewInternal是接收WebView的事件的载体通过自身把WebView的事件传递给UIWebView.</p>
+<h1 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h1><p>通过上面的了解，苹果终于在8.0之后开放了WKWebView应用于iOS和OSX中，它取代了UIWebView和WebView，在两个平台上支持同一套API。<br>它脱离于UIWebView的设计，将原本的设计拆分成14个类，和3个代理协议，虽然是这样但是了解之后其实用法比较简单，依照职责单一的原则，每个协议做的事情根据功能分类。</p>
+<h2 id="WKWebView相比于UIWebView"><a href="#WKWebView相比于UIWebView" class="headerlink" title="WKWebView相比于UIWebView"></a>WKWebView相比于UIWebView</h2><ul>
+<li>WKWebView的内存远远没有UIWebView的开销大,而且没有缓存</li>
+<li>拥有高达60FPS滚动刷新率及内置手势</li>
+<li>支持了更多的HTML5特性</li>
+<li>高效的app和web信息交换通道</li>
+<li>允许JavaScript的Nitro库加载并使用,UIWebView中限制了</li>
+<li>WKWebView目前缺少关于页码相关的API</li>
+<li>提供加载网页进度的属性</li>
+</ul>
+<h2 id="WKWebView的协议"><a href="#WKWebView的协议" class="headerlink" title="WKWebView的协议"></a>WKWebView的协议</h2><h3 id="WKScriptMessageHandler协议"><a href="#WKScriptMessageHandler协议" class="headerlink" title="WKScriptMessageHandler协议"></a>WKScriptMessageHandler协议</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.webkit.messageHandlers.&#123;NAME&#125;.postMessage()</span><br></pre></td></tr></table></figure>
+<p>可以把JavaScript对象通过该API自动转换成Objective-C或Swift 对象,Name可以通过addScriptMessageHandler: name:来设置<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>作为唯一响应JavaScript的协议方法，目的是为了与其它的进行分离，在该协议中响应之前注入的MessageHandlers.<br>可以根据WKScriptMessage知道Js的名称和参数，来区分不同的响应事件</p>
+<h3 id="WKNavigationDelegate协议"><a href="#WKNavigationDelegate协议" class="headerlink" title="WKNavigationDelegate协议"></a>WKNavigationDelegate协议</h3><p>提供了追踪主窗口网页加载过程和判断主窗口和子窗口是否进行页面加载新页面的相关方法,相当于UIWebView中webViewDidFinishLoad和webViewDidStartLoad方法,除了有开始加载、加载成功、加载失败的API外，还具有额外的三个代理方法：<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)webView:(WKWebView *)webView didReceiveServerRedirectForProvisionalNavigation:(WKNavigation *)navigation;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)webView:(WKWebView *)webView decidePolicyForNavigationResponse:(WKNavigationResponse *)navigationResponse decisionHandler:(<span class="keyword">void</span> (^)(WKNavigationResponsePolicy))decisionHandler;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)webView:(WKWebView *)webView decidePolicyForNavigationAction:(WKNavigationAction *)navigationAction decisionHandler:(<span class="keyword">void</span> (^)(WKNavigationActionPolicy))decisionHandler;</span><br></pre></td></tr></table></figure></p>
+<p>第一个是服务器redirect时调用<br>第二个API是根据客户端受到的服务器响应头以及response相关信息来决定是否可以跳转<br>第三个API是根据WebView对于即将跳转的HTTP请求头信息和相关信息来决定是否跳转</p>
+<h2 id="WKUIDelegate协议"><a href="#WKUIDelegate协议" class="headerlink" title="WKUIDelegate协议"></a>WKUIDelegate协议</h2><p>提供用原生控件显示网页的方法回调,例如Alert提示可以自定义用原生的控件来实现<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)webView:(WKWebView *)webView runJavaScriptAlertPanelWithMessage:(<span class="built_in">NSString</span> *)message initiatedByFrame:(WKFrameInfo *)frame completionHandler:(<span class="keyword">void</span> (^)(<span class="keyword">void</span>))completionHandler &#123;</span><br><span class="line">    <span class="built_in">UIAlertController</span> *alert = [<span class="built_in">UIAlertController</span> alertControllerWithTitle:<span class="literal">nil</span> message:message preferredStyle:<span class="built_in">UIAlertControllerStyleAlert</span>];</span><br><span class="line">    [alert addAction:[<span class="built_in">UIAlertAction</span> actionWithTitle:<span class="string">@"确定"</span> style:<span class="built_in">UIAlertActionStyleDefault</span> handler:^(<span class="built_in">UIAlertAction</span> * _Nonnull action) &#123;</span><br><span class="line">        completionHandler();</span><br><span class="line">    &#125;]];</span><br><span class="line">    [<span class="keyword">self</span> presentViewController:alert animated:<span class="literal">YES</span> completion:<span class="literal">NULL</span>];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>WKWebView相较于UIWebView在整体上有较大的提升，满足OS上面使用同一套控件的功能，同时对整个内存的开销以及滚动刷新率和JS交互做了优化的处理。依据职责单一的原则，拆分成了三个协议去实现WebView的响应，解耦了JS交互和加载进度的响应处理。WKWebView没有做缓存处理,所以对网页需要缓存的加载性能要求没那么高的还是可以考虑UIWebView.</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/小知识/">小知识</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://chausson.github.io/2016/08/09/UIWebView与WKWebView/" data-title="UIWebView与WKWebView | Chausson的技术博客" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/08/17/简单易用的HUD/" title="简单易用的HUD">
+  <strong>上一篇：</strong><br/>
+  <span>
+  简单易用的HUD</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/08/01/Method Swizzling理解/"  title="Method Swizzling 理解">
+ <strong>下一篇：</strong><br/> 
+ <span>Method Swizzling 理解
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/08/09/UIWebView与WKWebView/" data-title="UIWebView与WKWebView" data-url="http://chausson.github.io/2016/08/09/UIWebView与WKWebView/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/图片/" title="图片">图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/小知识/" title="小知识">小知识<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/环境搭建/" title="环境搭建">环境搭建<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/组件/" title="组件">组件<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式-分类/" title="设计模式#分类">设计模式#分类<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/chausson" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	
+	<div class="social-font" class="clearfix">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2017 
+		
+		<a href="/about" target="_blank" title="Chausson">Chausson</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chausson"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
