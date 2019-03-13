@@ -4,11 +4,11 @@
 
 其中不免需要用到代码生成文件之类的功能，那如何生成呢？
 
-答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角**JSONExport**(https://github.com/Ahmed-Ali/JSONExport)，由[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源。
+答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角**JSONExport**(https://github.com/Ahmed-Ali/JSONExport)，由作者[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源库。
 
 它是一款Mac的App,通过Swift语言来编写，需要在网站上下载工程用Xcode编译运行。
 
-运行后，大致是这样:
+运行后，大致是长这样:
 
 ![](jsonexport.png)
 
@@ -84,16 +84,22 @@ let constKeyName = "<!ConstKeyName!>"
 let additionalCustomTypeProperty = "<!AdditionalForCustomTypeProperty!>"
 ```
 
-上面定义了大量关键词，来与JSON中的内容进行替换，使插入的内容能够动态的去生成。
+在上面的文件中基本是定义了大量关键词，从这里不难看出，其中的属性与JSON的模版文件来进行映射关系的，使插入的内容能够动态去生成。
 
-在生成字符串的过程中，是使用逐行写入文件，并替换关键词，这样的思路确实是能够胜任代码生成代码的部分。
+在生成字符串的过程中，是逐行逐行来写入文件，就像我们的打印机一样一行一行来输出，用换行符\n和\t来进行格式排版的控制,最后替换关键词，这样的思路确实是能够胜任代码生成代码的部分。
 
-可以知道的是在其中作者用一套解析方式，应用于多个模版，如果生成的文件需要增加的同时，也需要增加一个模版。下面具体来解析一下源码中的一起惊喜，个人认为整个思路大致是这样，但是作者开发的时候代码设计还是值得学习的。
+可以知道的是在其中作者用一套解析方式，应用于多个模版，如果生成的文件需要增加的同时，也需要增加一个模版。下面具体来解析一下源码中的代码设计，整个思路大致是这样，但是作者使用的设计模式还是值得学习的。
 
-是不是现在有点疑惑，各种模型生成的方式不一样Swift,Objective-C,Java，怎么用一套规则去解析生成呢。那么我们就了解下源码中的一些代码设计方式。首先看一下一些类的结构，大致分为三组:
+是不是现在有点疑惑，各种模型生成的方式不一样Swift,Objective-C,Java，怎么用一套规则去解析生成呢。那么我们就了解下源码中的一些代码设计方式。首先看一下一些类的结构，大致分为三组，也可以定义为三层:
 
-- Supported Languages(模版文件)
-- Lang Data Models (模版文件模型)
-- File content generators （文件生成转化类)
+- Supported Languages(模版文件) => Data层
+- Lang Data Models (模版文件模型)  => Model层
+- File content generators （文件生成转化类) => Service层
+
+##### Supported Languages(模版文件) => Data层
+
+##### Lang Data Models (模版文件模型)  => Model层
+
+##### File content generators （文件生成转化类) => Service层
 
 当然还有其他文件生成的方式，如**Sourcery** 框架，但只针对于Swift文件语言写入。利用Swift中xxxxx。
