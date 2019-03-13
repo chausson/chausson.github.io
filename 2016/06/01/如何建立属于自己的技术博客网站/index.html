@@ -1,0 +1,506 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>如何拥有一套属于自己的技术博客网站 | Chausson的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Chausson">
+    
+
+    
+    <meta name="description" content="序现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。 安装Node.Js目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。 Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。 N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何拥有一套属于自己的技术博客网站">
+<meta property="og:url" content="http://chausson.github.io/2016/06/01/如何建立属于自己的技术博客网站/index.html">
+<meta property="og:site_name" content="Chausson的技术博客">
+<meta property="og:description" content="序现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。 安装Node.Js目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。 Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。 N">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2016-06-01T10:15:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何拥有一套属于自己的技术博客网站">
+<meta name="twitter:description" content="序现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。 安装Node.Js目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。 Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。 N">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Chausson的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chausson的技术博客">Chausson的技术博客</a></h1>
+				<h2 class="blog-motto">技术的本质是为了实现需求，更深入的了解是为了更好的实现</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">文章</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索">
+						<input type="hidden" name="q" value="site:chausson.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/01/如何建立属于自己的技术博客网站/" title="如何拥有一套属于自己的技术博客网站" itemprop="url">如何拥有一套属于自己的技术博客网站</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Chausson" target="_blank" itemprop="author">Chausson</a>
+		
+  </p><p class="article-time">
+    <time datetime="2016-06-01T10:15:38.000Z" itemprop="datePublished"> 发表于 2016-06-01</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#序"><span class="toc-number">1.</span> <span class="toc-text">序</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Node-Js"><span class="toc-number">2.</span> <span class="toc-text">安装Node.Js</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安装Hexo"><span class="toc-number">3.</span> <span class="toc-text">安装Hexo</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Hexo-文件目录介绍"><span class="toc-number">3.1.</span> <span class="toc-text">Hexo 文件目录介绍</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Hexo命令"><span class="toc-number">4.</span> <span class="toc-text">Hexo命令</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#配置Github"><span class="toc-number">5.</span> <span class="toc-text">配置Github</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#关联Github"><span class="toc-number">6.</span> <span class="toc-text">关联Github</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#报错总结"><span class="toc-number">7.</span> <span class="toc-text">报错总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#脚本发布"><span class="toc-number">8.</span> <span class="toc-text">脚本发布</span></a></li></ol>
+		
+		</div>
+		
+		<h2 id="序"><a href="#序" class="headerlink" title="序"></a>序</h2><p>现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。</p>
+<h2 id="安装Node-Js"><a href="#安装Node-Js" class="headerlink" title="安装Node.Js"></a>安装Node.Js</h2><p>目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。</p>
+<p>Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。</p>
+<p>NPM是随同NodeJS一起安装的包管理工具，能解决NodeJS代码部署上的很多问题。</p>
+<p>安装方法上官网下载<a href="http://nodejs.cn/" target="_blank" rel="noopener">Node.Js</a>,安装之后即可使用，我目前安装的版本是4.4。</p>
+<p>由于新版的nodejs已经集成了npm，所以之前npm也一并安装好了。同样可以通过输入 “npm -v” 来测试是否成功安装。命令如下，出现版本提示表示安装成功:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ npm -v</span><br><span class="line">2.3.0</span><br></pre></td></tr></table></figure>
+<h2 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h2><p>基于NPM命令，使用如下方法可以安装Hexo:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>部署Hexo</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init</span><br></pre></td></tr></table></figure>
+<p>注：这个命令会初始化博客的目录，所以，执行这个命令时，在你想创建的目录下执行，就自动生成到对应目录下<br>执行命令生，会在当前命令的路径下，生成以下文件：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">.</span><br><span class="line">├── _config.yml</span><br><span class="line">├── node_modules</span><br><span class="line">├── scaffolds</span><br><span class="line">├── scripts</span><br><span class="line">├── <span class="built_in">source</span></span><br><span class="line">|   ├── _drafts</span><br><span class="line">|   └── _posts</span><br><span class="line">├── themes</span><br><span class="line">└── package.json</span><br></pre></td></tr></table></figure></p>
+<h3 id="Hexo-文件目录介绍"><a href="#Hexo-文件目录介绍" class="headerlink" title="Hexo 文件目录介绍"></a>Hexo 文件目录介绍</h3><ul>
+<li>public：执行hexo generate命令，输出的静态网页内容目录</li>
+<li>scaffolds：layout模板文件目录，其中的md文件可以添加编辑</li>
+<li>scripts：扩展脚本目录，这里可以自定义一些javascript脚本</li>
+<li>source：文章源码目录，该目录下的markdown和html文件均会被hexo处理。该页面对应repo的根目录，404文件、favicon.ico文件，CNAME文件等都应该放这里，该目录下可新建页面目录。</li>
+<li>_drafts：草稿文章</li>
+<li>_posts：发布文章</li>
+<li>themes：主题文件目录</li>
+<li>_config.yml：全局配置文件，大多数的设置都在这里</li>
+<li>package.json：应用程序数据，指明hexo的版本等信息，类似于一般软件中的关于按钮</li>
+</ul>
+<h2 id="Hexo命令"><a href="#Hexo命令" class="headerlink" title="Hexo命令"></a>Hexo命令</h2><p>Hexo下，通过 _config.yml 设置博客，可以想象成我们用的软件里的设置一样，只是它通过一个文件列出这些参数，然后让我们填写和修改。</p>
+<ul>
+<li><p>全局设置<br>在你博客目录下有一个文件名_config.yml，打开可以配置信息。</p>
+</li>
+<li><p>局部页面<br>在你博客目录下 \themes\你使用的主题_config.yml</p>
+</li>
+<li><p>Hexo常用命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">"postName"</span>   or hexo n <span class="string">"postName"</span>    <span class="comment">#新建文章</span></span><br><span class="line">$ hexo new page <span class="string">"pageName"</span>      <span class="comment">#新建页面</span></span><br><span class="line">$ hexo generate or hexo g       <span class="comment">#生成静态页面至public目录</span></span><br><span class="line">$ hexo server   or hexo s       <span class="comment">#开启预览访问端口（默认端口4000，'ctrl + c'关闭server）</span></span><br><span class="line">$ hexo deploy   or hexo d       <span class="comment">#将.deploy目录部署到GitHub</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>还可以复合命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy -g</span><br><span class="line">$ hexo server -g</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>有时候生成的网页出错了，而生成的rss其实没有清除，那么用下面的命令，在重新生成吧<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean</span><br></pre></td></tr></table></figure></p>
+<p>当本地调试出现诡异现象时候，请先使用 hexo clean 清理已经生成的静态文件后重试。</p>
+<p>注：Hexo原理就是hexo在执行hexo generate时会在本地先把博客生成的一套静态站点放到public文件夹中，在执行hexo deploy时将其复制到.deploy文件夹中。Github的版本库通常建议同时附上README.md说明文件，但是hexo默认情况下会把所有md文件解析成html文件，所以即使你在线生成了README.md，它也会在你下一次部署时被删去。怎么解决呢？<br>在执行hexo deploy前把在本地写好的README.md文件复制到.deploy文件夹中，再去执行hexo deploy。</p>
+<h2 id="配置Github"><a href="#配置Github" class="headerlink" title="配置Github"></a>配置Github</h2><ul>
+<li>安装Git (把本地的hexo内容提交到github)</li>
+<li>申请GitHub账号 (是用来做博客的远程创库、域名、服务器等)</li>
+<li>需要在GithHub上配置SSH Keys,如果不了解SSH Keys详见 <a href="https://www.baidu.com/s?ie=utf-8&amp;f=8&amp;rsv_bp=1&amp;ch=&amp;tn=baiduerr&amp;bar=&amp;wd=SSHKeys生成" target="_blank" rel="noopener">SSHKey的作用和生成</a></li>
+<li>在github上建立与你用户名对应的仓库，仓库名必须为【your_user_name.github.io】</li>
+</ul>
+<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><p>现在我们需要_config.yml文件，来建立关联，命令：</p>
+<p>vim _config.yml</p>
+<p>翻到最下面，改成我这样子的</p>
+<p>deploy:</p>
+<pre><code>type: git
+
+repo:https://github.com/leopardpan/leopardpan.github.io.git
+
+branch:master
+</code></pre><p>然后执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-deployer-git --save</span><br></pre></td></tr></table></figure></p>
+<p>有的type是github,我现在的版本是hexo: 3.1.1，执行命令<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo -vsersion</span><br></pre></td></tr></table></figure></p>
+<p>貌似3.0后全部改成我上面这种格式了。</p>
+<p>然后，执行配置命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure></p>
+<h2 id="报错总结"><a href="#报错总结" class="headerlink" title="报错总结"></a>报错总结</h2><p>ERROR Deployer not found: git 或者 ERROR Deployer not found: github</p>
+<p>解决方法： npm install hexo-deployer-git –save</p>
+<p>如发生报错： ERROR Process failed: layout/.DS_Store , 那么进入主题里面layout和_partial目录下，使用删除命令：</p>
+<p>rm-rf.DS_Store</p>
+<p>ERROR Plugin load failed: hexo-server</p>
+<p>原因：</p>
+<p>Besides,utilities are separated into a standalone module.hexo.util is not reachable anymore.</p>
+<p>解决方法，执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install hexo-server</span><br></pre></td></tr></table></figure></p>
+<p>执行命令hexo server，提示：Usage: hexo ….</p>
+<p>原因：</p>
+<p>我认为是没有生成本地服务</p>
+<p>解决方法，执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-server--save</span><br></pre></td></tr></table></figure></p>
+<p>提示：hexo-server@0.1.2 node_modules/hexo-server</p>
+<p>….</p>
+<p>表示成功了参考</p>
+<p>这个时候再执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo-server</span><br></pre></td></tr></table></figure></p>
+<p>得到:</p>
+<p>INFOHexois running at <a href="http://0.0.0.0:4000/.PressCtrl+C" target="_blank" rel="noopener">http://0.0.0.0:4000/.PressCtrl+C</a> to stop.</p>
+<p>这个时候再点击<a href="http://0.0.0.0:4000" target="_blank" rel="noopener">http://0.0.0.0:4000</a></p>
+<h2 id="脚本发布"><a href="#脚本发布" class="headerlink" title="脚本发布"></a>脚本发布</h2><p>如果发布调用Hexo deploy 失败，可以尝试使用脚本部署的方式发布到Github，以下是脚本命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /Users/Chausson/Documents/B<span class="built_in">log</span> <span class="comment">#这里指的是Hexo创建文件夹的路径</span></span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ <span class="built_in">cd</span> public</span><br><span class="line"></span><br><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"update at `date` "</span></span><br><span class="line"></span><br><span class="line">$ git remote add origin git@github.com:chausson/chausson.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Pushing to Github..."</span></span><br><span class="line">$ git push origin master <span class="_">-f</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Done"</span></span><br></pre></td></tr></table></figure></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/环境搭建/">环境搭建</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://chausson.github.io/2016/06/01/如何建立属于自己的技术博客网站/" data-title="如何拥有一套属于自己的技术博客网站 | Chausson的技术博客" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2016/06/28/代码Review系列(1)——CHChat聊天组件/" title="代码Review系列(1)——CSChat聊天组件">
+  <strong>上一篇：</strong><br>
+  <span>
+  代码Review系列(1)——CSChat聊天组件</span>
+</a>
+</div>
+
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/06/01/如何建立属于自己的技术博客网站/" data-title="如何拥有一套属于自己的技术博客网站" data-url="http://chausson.github.io/2016/06/01/如何建立属于自己的技术博客网站/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/图片/" title="图片">图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/小知识/" title="小知识">小知识<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/环境搭建/" title="环境搭建">环境搭建<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/组件/" title="组件">组件<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式-分类/" title="设计模式#分类">设计模式#分类<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/chausson" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	
+	<div class="social-font">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Chausson">Chausson</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chausson"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

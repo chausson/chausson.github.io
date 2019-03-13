@@ -1,0 +1,449 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>JSONExport 源码解析 | Chausson的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Chausson">
+    
+
+    
+    <meta name="description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JSONExport 源码解析">
+<meta property="og:url" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/index.html">
+<meta property="og:site_name" content="Chausson的技术博客">
+<meta property="og:description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/jsonexport.png">
+<meta property="og:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/progress.png">
+<meta property="og:updated_time" content="2019-03-13T16:42:58.375Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JSONExport 源码解析">
+<meta name="twitter:description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
+<meta name="twitter:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/jsonexport.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Chausson的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chausson的技术博客">Chausson的技术博客</a></h1>
+				<h2 class="blog-motto">技术的本质是为了实现需求，更深入的了解是为了更好的实现</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">文章</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索">
+						<input type="hidden" name="q" value="site:chausson.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2019/03/14/JSONExport-源码解析/" title="JSONExport 源码解析" itemprop="url">JSONExport 源码解析</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Chausson" target="_blank" itemprop="author">Chausson</a>
+		
+  </p><p class="article-time">
+    <time datetime="2019-03-13T16:30:27.000Z" itemprop="datePublished"> 发表于 2019-03-14</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码生成代码——JSONExport解析"><span class="toc-number">1.</span> <span class="toc-text">代码生成代码——JSONExport解析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Supported-Languages-模版文件-gt-Data层"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Supported Languages(模版文件) =&gt; Data层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lang-Data-Models-模版文件模型-gt-Model层"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Lang Data Models (模版文件模型)  =&gt; Model层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#File-content-generators-（文件生成转化类-gt-Service层"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">File content generators （文件生成转化类) =&gt; Service层</span></a></li></ol></li></ol>
+		
+		</div>
+		
+		<h2 id="代码生成代码——JSONExport解析"><a href="#代码生成代码——JSONExport解析" class="headerlink" title="代码生成代码——JSONExport解析"></a>代码生成代码——JSONExport解析</h2><p>因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。</p>
+<p>其中不免需要用到代码生成文件之类的功能，那如何生成呢？</p>
+<p>答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角<strong>JSONExport</strong>(<a href="https://github.com/Ahmed-Ali/JSONExport)，由作者[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源库。" target="_blank" rel="noopener">https://github.com/Ahmed-Ali/JSONExport)，由作者[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源库。</a></p>
+<p>它是一款Mac的App,通过Swift语言来编写，需要在网站上下载工程用Xcode编译运行。</p>
+<p>运行后，大致是长这样:</p>
+<p><img src="jsonexport.png" alt></p>
+<p>左边输入JSON，右边生成文件预览，右下角根据选择的语言，通过方法loadSupportedLanguages()来读取本地模版。</p>
+<p>作者在工程中定义了一系列的数据模版来将JSON来映射解析，类似如这样:</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "langName": "名称", // 模版名称</span><br><span class="line">  "modelStart": "",</span><br><span class="line">  "basicTypesWithSpecialFetchingNeedsReplacements": [], // 类型转换映射</span><br><span class="line">  "basicTypesWithSpecialStoringNeeds": [], // 基础类型映射</span><br><span class="line">  "importForEachCustomType": "", </span><br><span class="line">  "reservedKeywords": [], //关键字转换</span><br><span class="line">  "briefDescription": "", //生成的描述</span><br><span class="line">  "utilityMethods": [],</span><br><span class="line">  "dataTypes": &#123;&#125;, // 基础类型映射</span><br><span class="line">  "wordsToRemoveToGetArrayElementsType": [],</span><br><span class="line">  "constructors": [],</span><br><span class="line">  "constVarDefinition": "",</span><br><span class="line">  "modelDefinition": "",</span><br><span class="line">  "genericType": "",</span><br><span class="line">  "headerFileData": &#123;</span><br><span class="line">    "modelDefinitionWithParent": "",</span><br><span class="line">    "modelEnd": "",</span><br><span class="line">    "instanceVarDefinition": "",</span><br><span class="line">    "utilityMethodSignatures": [],</span><br><span class="line">    "constructorSignatures": [],</span><br><span class="line">    "typesNeedSpecialDefinition": [],</span><br><span class="line">    "modelStart": "",</span><br><span class="line">    "importParentHeaderFile": "",</span><br><span class="line">    "headerFileExtension": "",</span><br><span class="line">    "modelDefinition": "",</span><br><span class="line">    "importForEachCustomType": "",</span><br><span class="line">    "instanceVarWithSpeicalDefinition": "",</span><br><span class="line">    "staticImports": "#import &lt;UIKit/UIKit.h&gt;"</span><br><span class="line">  &#125;, // OC头文件</span><br><span class="line">  "fileExtension": "", // 文件后缀，导出文件拼接用</span><br><span class="line">  "arrayType": "NSArray",</span><br><span class="line">  "basicTypesWithSpecialFetchingNeeds": [],</span><br><span class="line">  "displayLangName": "", //客户端显示的语言名称,如:Swift,Objective-C</span><br><span class="line">  "instanceVarDefinition": "",</span><br><span class="line">  "supportsFirstLineStatement": "",</span><br><span class="line">  "modelEnd": "",</span><br><span class="line">  "staticImports": "", // 需要导入的静态包</span><br><span class="line">  "importHeaderFile": ""</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>流程大致是这样:</p>
+<p><img src="progress.png" alt></p>
+<p>模版中有需要一些动态插入的部分，如属性名，类名等之类的，用了&lt;!ModelName!&gt;,&lt;!VarName!&gt;作为关键次，在插入字符串过程中，会映射替换JSON的内容。可以看下<strong>SharedConstants.swift</strong>文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let elementType = &quot;&lt;!ElementType!&gt;&quot;</span><br><span class="line">let modelName = &quot;&lt;!ModelName!&gt;&quot;</span><br><span class="line">let modelWithParentClassName = &quot;&lt;!ParentClass!&gt;&quot;</span><br><span class="line">let varName = &quot;&lt;!VarName!&gt;&quot;</span><br><span class="line">let capitalizedVarName = &quot;&lt;!CapitalizedVarName!&gt;&quot;</span><br><span class="line">let varType = &quot;&lt;!VarType!&gt;&quot;</span><br><span class="line">let varTypeReplacement = &quot;&lt;!VarBasicTypeReplacement!&gt;&quot;</span><br><span class="line">let varTypeCast = &quot;&lt;!VarBasicTypeCast!&gt;&quot;</span><br><span class="line">let capitalizedVarType = &quot;&lt;!CapitalizedVarType!&gt;&quot;</span><br><span class="line">let lowerCaseVarType = &quot;&lt;!LowerCaseVarType!&gt;&quot;</span><br><span class="line">let lowerCaseModelName = &quot;&lt;!LowerCaseModelName!&gt;&quot;</span><br><span class="line">let jsonKeyName = &quot;&lt;!JsonKeyName!&gt;&quot;</span><br><span class="line">let constKeyName = &quot;&lt;!ConstKeyName!&gt;&quot;</span><br><span class="line">let additionalCustomTypeProperty = &quot;&lt;!AdditionalForCustomTypeProperty!&gt;&quot;</span><br></pre></td></tr></table></figure>
+<p>在上面的文件中基本是定义了大量关键词，从这里不难看出，其中的属性与JSON的模版文件来进行映射关系的，使插入的内容能够动态去生成。</p>
+<p>在生成字符串的过程中，是逐行逐行来写入文件，就像我们的打印机一样一行一行来输出，用换行符\n和\t来进行格式排版的控制,最后替换关键词，这样的思路确实是能够胜任代码生成代码的部分。</p>
+<p>可以知道的是在其中作者用一套解析方式，应用于多个模版，如果生成的文件需要增加的同时，也需要增加一个模版。下面具体来解析一下源码中的代码设计，整个思路大致是这样，但是作者使用的设计模式还是值得学习的。</p>
+<p>是不是现在有点疑惑，各种模型生成的方式不一样Swift,Objective-C,Java，怎么用一套规则去解析生成呢。那么我们就了解下源码中的一些代码设计方式。首先看一下一些类的结构，大致分为三组，也可以定义为三层:</p>
+<ul>
+<li>Supported Languages(模版文件) =&gt; Data层</li>
+<li>Lang Data Models (模版文件模型)  =&gt; Model层</li>
+<li>File content generators （文件生成转化类) =&gt; Service层</li>
+</ul>
+<h5 id="Supported-Languages-模版文件-gt-Data层"><a href="#Supported-Languages-模版文件-gt-Data层" class="headerlink" title="Supported Languages(模版文件) =&gt; Data层"></a>Supported Languages(模版文件) =&gt; Data层</h5><h5 id="Lang-Data-Models-模版文件模型-gt-Model层"><a href="#Lang-Data-Models-模版文件模型-gt-Model层" class="headerlink" title="Lang Data Models (模版文件模型)  =&gt; Model层"></a>Lang Data Models (模版文件模型)  =&gt; Model层</h5><h5 id="File-content-generators-（文件生成转化类-gt-Service层"><a href="#File-content-generators-（文件生成转化类-gt-Service层" class="headerlink" title="File content generators （文件生成转化类) =&gt; Service层"></a>File content generators （文件生成转化类) =&gt; Service层</h5><p>当然还有其他文件生成的方式，如<strong>Sourcery</strong> 框架，但只针对于Swift文件语言写入。利用Swift中xxxxx。</p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://chausson.github.io/2019/03/14/JSONExport-源码解析/" data-title="JSONExport 源码解析 | Chausson的技术博客" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+
+<div class="next">
+<a href="/2017/03/16/Git从入门到进阶/" title="Git从入门到进阶">
+ <strong>下一篇：</strong><br> 
+ <span>Git从入门到进阶
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2019/03/14/JSONExport-源码解析/" data-title="JSONExport 源码解析" data-url="http://chausson.github.io/2019/03/14/JSONExport-源码解析/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/图片/" title="图片">图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/小知识/" title="小知识">小知识<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/环境搭建/" title="环境搭建">环境搭建<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/组件/" title="组件">组件<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式-分类/" title="设计模式#分类">设计模式#分类<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/chausson" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	
+	<div class="social-font">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Chausson">Chausson</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chausson"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

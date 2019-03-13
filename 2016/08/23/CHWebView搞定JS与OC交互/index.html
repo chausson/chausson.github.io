@@ -1,0 +1,462 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+  
+    <title>CHWebView搞定JS与OC交互 | Chausson的技术博客</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="Chausson">
+    
+
+    
+    <meta name="description" content="之前写过一篇文章分析UIWebView与WKWebView,在这基础之实现继承自UIView的控件CHWebView ,将它作为一个Container包装UIWebView和WKWebView Github地址：https://github.com/chausson/CHWebView（给开源的一个Star,谢谢） 实现的功能 实现JS与OC的调用 自带默认进度条属性和协议 将UIWebView和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CHWebView搞定JS与OC交互">
+<meta property="og:url" content="http://chausson.github.io/2016/08/23/CHWebView搞定JS与OC交互/index.html">
+<meta property="og:site_name" content="Chausson的技术博客">
+<meta property="og:description" content="之前写过一篇文章分析UIWebView与WKWebView,在这基础之实现继承自UIView的控件CHWebView ,将它作为一个Container包装UIWebView和WKWebView Github地址：https://github.com/chausson/CHWebView（给开源的一个Star,谢谢） 实现的功能 实现JS与OC的调用 自带默认进度条属性和协议 将UIWebView和">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:image" content="http://chausson.github.io/img/CHWebView设计图.png">
+<meta property="og:image" content="http://chausson.github.io/gif/WebView.gif">
+<meta property="og:updated_time" content="2016-09-05T04:29:49.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CHWebView搞定JS与OC交互">
+<meta name="twitter:description" content="之前写过一篇文章分析UIWebView与WKWebView,在这基础之实现继承自UIView的控件CHWebView ,将它作为一个Container包装UIWebView和WKWebView Github地址：https://github.com/chausson/CHWebView（给开源的一个Star,谢谢） 实现的功能 实现JS与OC的调用 自带默认进度条属性和协议 将UIWebView和">
+<meta name="twitter:image" content="http://chausson.github.io/img/CHWebView设计图.png">
+
+    
+    <link rel="alternative" href="/atom.xml" title="Chausson的技术博客" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="Chausson的技术博客">Chausson的技术博客</a></h1>
+				<h2 class="blog-motto">技术的本质是为了实现需求，更深入的了解是为了更好的实现</h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/archives">文章</a></li>
+					
+						<li><a href="/about">关于我</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索">
+						<input type="hidden" name="q" value="site:chausson.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</ul></nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/08/23/CHWebView搞定JS与OC交互/" title="CHWebView搞定JS与OC交互" itemprop="url">CHWebView搞定JS与OC交互</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="Chausson" target="_blank" itemprop="author">Chausson</a>
+		
+  </p><p class="article-time">
+    <time datetime="2016-08-23T05:31:45.000Z" itemprop="datePublished"> 发表于 2016-08-23</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			<ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#实现的功能"><span class="toc-number">1.</span> <span class="toc-text">实现的功能</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#如何调用OC的方法"><span class="toc-number">2.</span> <span class="toc-text">如何调用OC的方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#OC调用JS方法"><span class="toc-number">3.</span> <span class="toc-text">OC调用JS方法</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#进度条属性"><span class="toc-number">4.</span> <span class="toc-text">进度条属性</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#CHWebView设计图"><span class="toc-number">5.</span> <span class="toc-text">CHWebView设计图</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#Demo"><span class="toc-number">6.</span> <span class="toc-text">Demo</span></a></li></ol>
+		
+		</div>
+		
+		<p>之前写过一篇文章分析<a href="http://chausson.github.io/2016/08/09/UIWebView%E4%B8%8EWKWebView/">UIWebView与WKWebView</a>,在这基础之实现继承自UIView的控件<br>CHWebView ,将它作为一个Container包装UIWebView和WKWebView</p>
+<p>Github地址：<a href="https://github.com/chausson/CHWebView" target="_blank" rel="noopener">https://github.com/chausson/CHWebView</a><br>（给开源的一个Star,谢谢）</p>
+<h1 id="实现的功能"><a href="#实现的功能" class="headerlink" title="实现的功能"></a>实现的功能</h1><ul>
+<li>实现JS与OC的调用</li>
+<li>自带默认进度条属性和协议</li>
+<li>将UIWebView和WKWebView统一API</li>
+</ul>
+<h1 id="如何调用OC的方法"><a href="#如何调用OC的方法" class="headerlink" title="如何调用OC的方法"></a>如何调用OC的方法</h1><p>1.Object-C需要使用CHWebView并且注册函数名称</p>
+<p>2.注册接收对象(使用CHWebViewController的话默认已经注册)</p>
+<p>3.实现注册的函数</p>
+<p>类似这样<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSArray</span>&lt;<span class="built_in">NSString</span> *&gt; *)registerJavascriptName&#123;</span><br><span class="line">    <span class="keyword">return</span> @[<span class="string">@"fetchMessage"</span>,<span class="string">@"show"</span>];</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="built_in">NSObject</span> *)registerJavaScriptHandler&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)fetchMessage:(<span class="built_in">NSDictionary</span> *)dic&#123;</span><br><span class="line">   </span><br><span class="line">&#125;</span><br><span class="line">- (<span class="keyword">void</span>)show&#123;</span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>4.JS如何调用?</p>
+<p>当OC这边都准备完毕,通过一行代码即可实现调用OC的方法</p>
+<p>OC将方法名获取后通过RunTime的机制发送消息给注册的对象</p>
+<p>html这边可以直接使用NativeBridge对象了,NativeBridge({name},{param})</p>
+<p>name ‘表示OC的函数名称’</p>
+<p>param ‘表示需要传入的参数，支持Array,int,object,json’</p>
+<p>像这样<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">nativeFounction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> obj = &#123; <span class="string">'message'</span> : <span class="string">'Hello, JS!'</span>, <span class="string">'numbers'</span> : [ <span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span> ] &#125;;</span><br><span class="line">    <span class="built_in">window</span>.NativeBridge(<span class="string">'fetchMessage'</span>,obj)</span><br><span class="line">&#125;</span><br><span class="line"> <span class="function"><span class="keyword">function</span> <span class="title">showUIFuction</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">    <span class="built_in">window</span>.NativeBridge(<span class="string">'show'</span>)</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p>CHWebView中使用的是WKWebView基于webkit的支持，WKWebView在加载这个Web的时候，默认会注册一个webkit.messageHandlers的对象，同时我在加载完成后注入了一个NativeBridge的对象，目的是为了webkit.messageHandlers和JSContent注入对象API的统一。当然也可以自己手动在加载web的时候导入这段JS<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">  <span class="built_in">window</span>.NativeBridge = <span class="function"><span class="keyword">function</span>(<span class="params">name,message</span>)</span>&#123;</span><br><span class="line">    <span class="keyword">var</span> iosDevice = !!navigator.userAgent.match(<span class="regexp">/\(i[^;]+;( U;)? CPU.+Mac OS X/</span>);</span><br><span class="line">    <span class="keyword">if</span>(iosDevice)&#123;</span><br><span class="line">       <span class="comment">// Apple</span></span><br><span class="line">       <span class="keyword">if</span>(<span class="keyword">this</span>.hasOwnProperty(name))&#123;</span><br><span class="line">            <span class="built_in">eval</span>(<span class="string">"window."</span>+name+<span class="string">"(message)"</span>)</span><br><span class="line">       &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">            <span class="keyword">if</span>(message == <span class="literal">null</span>)&#123;</span><br><span class="line">                message = <span class="string">''</span></span><br><span class="line">           &#125;</span><br><span class="line">            <span class="built_in">eval</span>(<span class="string">"webkit.messageHandlers."</span>+name+<span class="string">".postMessage(message)"</span>)</span><br><span class="line">       &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h1 id="OC调用JS方法"><a href="#OC调用JS方法" class="headerlink" title="OC调用JS方法"></a>OC调用JS方法</h1><p>WebView本身就支持调用js的方法，所以很方便，只需要实现CHWebView中的invokeJavaScript:把JS执行的方法传入就可以。</p>
+<h1 id="进度条属性"><a href="#进度条属性" class="headerlink" title="进度条属性"></a>进度条属性</h1><p>CHWebView中有一个协议是更新当前web加载进度的，UIWebView中是在web加载的时候添加一个监听器去监听每次的请求数量作为一个进度加载，WKWebView则是对系统默认的进度条属性进行监听。<br><figure class="highlight obj-c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)webView:(CHWebView *)webVie  updateProgress:(<span class="built_in">NSProgress</span> *)progress;</span><br></pre></td></tr></table></figure></p>
+<h1 id="CHWebView设计图"><a href="#CHWebView设计图" class="headerlink" title="CHWebView设计图"></a>CHWebView设计图</h1><p><img src="/img/CHWebView设计图.png" title="CHWebView设计图"></p>
+<h1 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h1><p><img src="/gif/WebView.gif" title="CHWebView"></p>
+  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+<div class="article-categories">
+  <span></span>
+  <a class="article-category-link" href="/categories/组件/">组件</a>
+</div>
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://chausson.github.io/2016/08/23/CHWebView搞定JS与OC交互/" data-title="CHWebView搞定JS与OC交互 | Chausson的技术博客" data-tsina="undefined" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev">
+ <a href="/2016/09/22/制作Pod类库/" title="制作Pod类库">
+  <strong>上一篇：</strong><br>
+  <span>
+  制作Pod类库</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/08/17/简单易用的HUD/" title="简单易用的HUD">
+ <strong>下一篇：</strong><br> 
+ <span>简单易用的HUD
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+<section id="comments" class="comment">
+	<div class="ds-thread" data-thread-key="2016/08/23/CHWebView搞定JS与OC交互/" data-title="CHWebView搞定JS与OC交互" data-url="http://chausson.github.io/2016/08/23/CHWebView搞定JS与OC交互/"></div>
+</section>
+
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+<div class="categorieslist">
+	<p class="asidetitle">分类</p>
+		<ul>
+		
+		  
+			<li><a href="/categories/图片/" title="图片">图片<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/小知识/" title="小知识">小知识<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/环境搭建/" title="环境搭建">环境搭建<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/组件/" title="组件">组件<sup>3</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式/" title="设计模式">设计模式<sup>1</sup></a></li>
+		  
+		
+		  
+			<li><a href="/categories/设计模式-分类/" title="设计模式#分类">设计模式#分类<sup>1</sup></a></li>
+		  
+		
+		</ul>
+</div>
+
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/chausson" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self" frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=undefined&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer">
+	
+	
+	<div class="social-font">
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2019 
+		
+		<a href="/about" target="_blank" title="Chausson">Chausson</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+<script type="text/javascript">
+  var duoshuoQuery = {short_name:"chausson"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+    || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+</script> 
+
+
+
+
+
+
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>
