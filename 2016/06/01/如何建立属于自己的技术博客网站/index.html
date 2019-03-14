@@ -18,7 +18,7 @@
 <meta property="og:site_name" content="Chausson的技术博客">
 <meta property="og:description" content="序现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。 安装Node.Js目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。 Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。 N">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2016-06-01T10:15:38.000Z">
+<meta property="og:updated_time" content="2019-03-14T07:30:15.580Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="如何拥有一套属于自己的技术博客网站">
 <meta name="twitter:description" content="序现在终于搭建完了自己的技术博客网站,虽然技术上没有什么难度可言，但光搭建环境和整合资源就花了很久时间。所以目前把自己所搜集的资源快捷方法给大家，大家可以根据教程尝试搭建属于自己的技术博客网站。 安装Node.Js目前我的博客是用Hexo搭建的，这里有必要稍微说一下Hexo的原理。 Hexo是一款基于Node.js的静态博客框架,通过Hexo的命令生成静态文件，然后将静态文件部署到远端服务器。 N">
@@ -81,7 +81,7 @@
 		<a href="/about" title="Chausson" target="_blank" itemprop="author">Chausson</a>
 		
   </p><p class="article-time">
-    <time datetime="2016-06-01T10:15:38.000Z" itemprop="datePublished"> 发表于 2016-06-01</time>
+    <time datetime="2016-06-01T10:05:50.000Z" itemprop="datePublished"> 发表于 2016-06-01</time>
     
   </p>
 </header>
@@ -164,14 +164,14 @@ branch:master
 <p>原因：</p>
 <p>我认为是没有生成本地服务</p>
 <p>解决方法，执行命令：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install hexo-server--save</span><br></pre></td></tr></table></figure></p>
-<p>提示：hexo-server@0.1.2 node_modules/hexo-server</p>
+<p>提示：<a href="mailto:hexo-server@0.1.2" target="_blank" rel="noopener">hexo-server@0.1.2</a> node_modules/hexo-server</p>
 <p>….</p>
 <p>表示成功了参考</p>
 <p>这个时候再执行：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo-server</span><br></pre></td></tr></table></figure></p>
 <p>得到:</p>
 <p>INFOHexois running at <a href="http://0.0.0.0:4000/.PressCtrl+C" target="_blank" rel="noopener">http://0.0.0.0:4000/.PressCtrl+C</a> to stop.</p>
 <p>这个时候再点击<a href="http://0.0.0.0:4000" target="_blank" rel="noopener">http://0.0.0.0:4000</a></p>
-<h2 id="脚本发布"><a href="#脚本发布" class="headerlink" title="脚本发布"></a>脚本发布</h2><p>如果发布调用Hexo deploy 失败，可以尝试使用脚本部署的方式发布到Github，以下是脚本命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /Users/Chausson/Documents/B<span class="built_in">log</span> <span class="comment">#这里指的是Hexo创建文件夹的路径</span></span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ <span class="built_in">cd</span> public</span><br><span class="line"></span><br><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"update at `date` "</span></span><br><span class="line"></span><br><span class="line">$ git remote add origin git@github.com:chausson/chausson.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Pushing to Github..."</span></span><br><span class="line">$ git push origin master <span class="_">-f</span></span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Done"</span></span><br></pre></td></tr></table></figure></p>
+<h2 id="脚本发布"><a href="#脚本发布" class="headerlink" title="脚本发布"></a>脚本发布</h2><p>如果发布调用Hexo deploy 失败，可以尝试使用脚本部署的方式发布到Github，以下是脚本命令:<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> /Users/Chausson/Documents/Blog <span class="comment">#这里指的是Hexo创建文件夹的路径</span></span><br><span class="line">$ hexo clean</span><br><span class="line">$ hexo generate</span><br><span class="line">$ <span class="built_in">cd</span> public</span><br><span class="line"></span><br><span class="line">$ git init</span><br><span class="line">$ git add .</span><br><span class="line">$ git commit -m <span class="string">"update at `date` "</span></span><br><span class="line"></span><br><span class="line">$ git remote add origin git@github.com:chausson/chausson.github.io</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Pushing to Github..."</span></span><br><span class="line">$ git push origin master -f</span><br><span class="line">$ <span class="built_in">echo</span> <span class="string">"### Done"</span></span><br></pre></td></tr></table></figure></p>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -263,6 +263,17 @@ branch:master
 
 
   
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/源码解析/" title="源码解析">源码解析<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
 
   <div class="linkslist">
   <p class="asidetitle">友情链接</p>

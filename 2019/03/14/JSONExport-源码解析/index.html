@@ -11,20 +11,21 @@
     
 
     
-    <meta name="description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
+    <meta name="description" content="如何不在重复写业务请求？——用代码生成代码因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(h">
+<meta name="keywords" content="源码解析">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JSONExport 源码解析">
 <meta property="og:url" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/index.html">
 <meta property="og:site_name" content="Chausson的技术博客">
-<meta property="og:description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
+<meta property="og:description" content="如何不在重复写业务请求？——用代码生成代码因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(h">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/jsonexport.png">
-<meta property="og:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/progress.png">
-<meta property="og:updated_time" content="2019-03-13T16:42:58.375Z">
+<meta property="og:image" content="http://chausson.github.io/img/jsonexport.png">
+<meta property="og:image" content="http://chausson.github.io/img/progress.png">
+<meta property="og:updated_time" content="2019-03-14T07:36:34.830Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JSONExport 源码解析">
-<meta name="twitter:description" content="代码生成代码——JSONExport解析因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(ht">
-<meta name="twitter:image" content="http://chausson.github.io/2019/03/14/JSONExport-源码解析/jsonexport.png">
+<meta name="twitter:description" content="如何不在重复写业务请求？——用代码生成代码因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。 其中不免需要用到代码生成文件之类的功能，那如何生成呢？ 答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角JSONExport(h">
+<meta name="twitter:image" content="http://chausson.github.io/img/jsonexport.png">
 
     
     <link rel="alternative" href="/atom.xml" title="Chausson的技术博客" type="application/atom+xml">
@@ -93,21 +94,21 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">文章目录</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#代码生成代码——JSONExport解析"><span class="toc-number">1.</span> <span class="toc-text">代码生成代码——JSONExport解析</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Supported-Languages-模版文件-gt-Data层"><span class="toc-number">1.0.0.1.</span> <span class="toc-text">Supported Languages(模版文件) =&gt; Data层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lang-Data-Models-模版文件模型-gt-Model层"><span class="toc-number">1.0.0.2.</span> <span class="toc-text">Lang Data Models (模版文件模型)  =&gt; Model层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#File-content-generators-（文件生成转化类-gt-Service层"><span class="toc-number">1.0.0.3.</span> <span class="toc-text">File content generators （文件生成转化类) =&gt; Service层</span></a></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#如何不在重复写业务请求？——用代码生成代码"><span class="toc-number">1.</span> <span class="toc-text">如何不在重复写业务请求？——用代码生成代码</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#JSONExport优秀开源库学习"><span class="toc-number">1.1.</span> <span class="toc-text">JSONExport优秀开源库学习</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Supported-Languages-模版文件-gt-Data层"><span class="toc-number">1.1.0.1.</span> <span class="toc-text">Supported Languages(模版文件) =&gt; Data层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Lang-Data-Models-模版文件模型-gt-Model层"><span class="toc-number">1.1.0.2.</span> <span class="toc-text">Lang Data Models (模版文件模型)  =&gt; Model层</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#File-content-generators-（文件生成转化类-gt-Service层"><span class="toc-number">1.1.0.3.</span> <span class="toc-text">File content generators （文件生成转化类) =&gt; Service层</span></a></li></ol></li></ol></li></ol>
 		
 		</div>
 		
-		<h2 id="代码生成代码——JSONExport解析"><a href="#代码生成代码——JSONExport解析" class="headerlink" title="代码生成代码——JSONExport解析"></a>代码生成代码——JSONExport解析</h2><p>因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。</p>
+		<h2 id="如何不在重复写业务请求？——用代码生成代码"><a href="#如何不在重复写业务请求？——用代码生成代码" class="headerlink" title="如何不在重复写业务请求？——用代码生成代码"></a>如何不在重复写业务请求？——用代码生成代码</h2><p>因为最近想开发一款网路的大礼包，类似Mock API 到Model 的生成，通过一个按钮，或者一行命令去完成，来提高开发效率，节省重复劳动力，毕竟我们开发所有轮子的目的就在于此。</p>
 <p>其中不免需要用到代码生成文件之类的功能，那如何生成呢？</p>
 <p>答案有很多，不过大抵都是通过代码来生成代码，也有一些优秀的开源库和工具，接下来就介绍我们今天的主角<strong>JSONExport</strong>(<a href="https://github.com/Ahmed-Ali/JSONExport)，由作者[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源库。" target="_blank" rel="noopener">https://github.com/Ahmed-Ali/JSONExport)，由作者[Ahmed-Ali](https://github.com/Ahmed-Ali)开发提供的优秀开源库。</a></p>
 <p>它是一款Mac的App,通过Swift语言来编写，需要在网站上下载工程用Xcode编译运行。</p>
-<p>运行后，大致是长这样:</p>
-<p><img src="jsonexport.png" alt></p>
+<h3 id="JSONExport优秀开源库学习"><a href="#JSONExport优秀开源库学习" class="headerlink" title="JSONExport优秀开源库学习"></a>JSONExport优秀开源库学习</h3><p>运行后，大致是长这样:</p>
+<p><img src="/img/jsonexport.png" title="jsonexport"></p>
 <p>左边输入JSON，右边生成文件预览，右下角根据选择的语言，通过方法loadSupportedLanguages()来读取本地模版。</p>
 <p>作者在工程中定义了一系列的数据模版来将JSON来映射解析，类似如这样:</p>
 <figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  "langName": "名称", // 模版名称</span><br><span class="line">  "modelStart": "",</span><br><span class="line">  "basicTypesWithSpecialFetchingNeedsReplacements": [], // 类型转换映射</span><br><span class="line">  "basicTypesWithSpecialStoringNeeds": [], // 基础类型映射</span><br><span class="line">  "importForEachCustomType": "", </span><br><span class="line">  "reservedKeywords": [], //关键字转换</span><br><span class="line">  "briefDescription": "", //生成的描述</span><br><span class="line">  "utilityMethods": [],</span><br><span class="line">  "dataTypes": &#123;&#125;, // 基础类型映射</span><br><span class="line">  "wordsToRemoveToGetArrayElementsType": [],</span><br><span class="line">  "constructors": [],</span><br><span class="line">  "constVarDefinition": "",</span><br><span class="line">  "modelDefinition": "",</span><br><span class="line">  "genericType": "",</span><br><span class="line">  "headerFileData": &#123;</span><br><span class="line">    "modelDefinitionWithParent": "",</span><br><span class="line">    "modelEnd": "",</span><br><span class="line">    "instanceVarDefinition": "",</span><br><span class="line">    "utilityMethodSignatures": [],</span><br><span class="line">    "constructorSignatures": [],</span><br><span class="line">    "typesNeedSpecialDefinition": [],</span><br><span class="line">    "modelStart": "",</span><br><span class="line">    "importParentHeaderFile": "",</span><br><span class="line">    "headerFileExtension": "",</span><br><span class="line">    "modelDefinition": "",</span><br><span class="line">    "importForEachCustomType": "",</span><br><span class="line">    "instanceVarWithSpeicalDefinition": "",</span><br><span class="line">    "staticImports": "#import &lt;UIKit/UIKit.h&gt;"</span><br><span class="line">  &#125;, // OC头文件</span><br><span class="line">  "fileExtension": "", // 文件后缀，导出文件拼接用</span><br><span class="line">  "arrayType": "NSArray",</span><br><span class="line">  "basicTypesWithSpecialFetchingNeeds": [],</span><br><span class="line">  "displayLangName": "", //客户端显示的语言名称,如:Swift,Objective-C</span><br><span class="line">  "instanceVarDefinition": "",</span><br><span class="line">  "supportsFirstLineStatement": "",</span><br><span class="line">  "modelEnd": "",</span><br><span class="line">  "staticImports": "", // 需要导入的静态包</span><br><span class="line">  "importHeaderFile": ""</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>流程大致是这样:</p>
-<p><img src="progress.png" alt></p>
+<p><img src="/img/progress.png" title="progress"></p>
 <p>模版中有需要一些动态插入的部分，如属性名，类名等之类的，用了&lt;!ModelName!&gt;,&lt;!VarName!&gt;作为关键次，在插入字符串过程中，会映射替换JSON的内容。可以看下<strong>SharedConstants.swift</strong>文件中：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">let elementType = &quot;&lt;!ElementType!&gt;&quot;</span><br><span class="line">let modelName = &quot;&lt;!ModelName!&gt;&quot;</span><br><span class="line">let modelWithParentClassName = &quot;&lt;!ParentClass!&gt;&quot;</span><br><span class="line">let varName = &quot;&lt;!VarName!&gt;&quot;</span><br><span class="line">let capitalizedVarName = &quot;&lt;!CapitalizedVarName!&gt;&quot;</span><br><span class="line">let varType = &quot;&lt;!VarType!&gt;&quot;</span><br><span class="line">let varTypeReplacement = &quot;&lt;!VarBasicTypeReplacement!&gt;&quot;</span><br><span class="line">let varTypeCast = &quot;&lt;!VarBasicTypeCast!&gt;&quot;</span><br><span class="line">let capitalizedVarType = &quot;&lt;!CapitalizedVarType!&gt;&quot;</span><br><span class="line">let lowerCaseVarType = &quot;&lt;!LowerCaseVarType!&gt;&quot;</span><br><span class="line">let lowerCaseModelName = &quot;&lt;!LowerCaseModelName!&gt;&quot;</span><br><span class="line">let jsonKeyName = &quot;&lt;!JsonKeyName!&gt;&quot;</span><br><span class="line">let constKeyName = &quot;&lt;!ConstKeyName!&gt;&quot;</span><br><span class="line">let additionalCustomTypeProperty = &quot;&lt;!AdditionalForCustomTypeProperty!&gt;&quot;</span><br></pre></td></tr></table></figure>
 <p>在上面的文件中基本是定义了大量关键词，从这里不难看出，其中的属性与JSON的模版文件来进行映射关系的，使插入的内容能够动态去生成。</p>
@@ -125,6 +126,11 @@
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
 
+
+  <div class="article-tags">
+  
+  <span></span> <a href="/tags/源码解析/">源码解析</a>
+  </div>
 
 </div>
 
@@ -206,6 +212,17 @@
 
 
   
+<div class="tagslist">
+	<p class="asidetitle">标签</p>
+		<ul class="clearfix">
+		
+			
+				<li><a href="/tags/源码解析/" title="源码解析">源码解析<sup>1</sup></a></li>
+			
+		
+		</ul>
+</div>
+
 
   <div class="linkslist">
   <p class="asidetitle">友情链接</p>
